@@ -1,0 +1,69 @@
+package Mini;
+
+import java.io.FileWriter;
+import java.io.IOException;
+import java.time.LocalDateTime;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class WebTableScreenshot {
+
+    static WebDriver driver;
+
+    static String url =
+            "https://www.tutorialspoint.com/selenium/practice/webtables.php";
+    public static void log(String logfileName, String logMessage) {
+
+        try {
+            FileWriter fw = new FileWriter(logfileName, true);
+            fw.write(LocalDateTime.now() + " : " + logMessage + "\n");
+            fw.close();
+            System.out.println("Log created successfully");
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public static void main(String[] args) {
+           driver = new ChromeDriver();
+           driver.manage().window().maximize();
+           driver.get(url);
+
+        log("WebTableLog.txt", "Web table page opened successfully");
+        TakesScreenshot ts = (TakesScreenshot) driver;
+        ts.getScreenshotAs(OutputType.FILE);
+
+      java.io.File screenshot = ts.getScreenshotAs(OutputType.FILE);
+
+        try {
+              org.apache.commons.io.FileUtils.copyFile(screenshot,new java.io.File("WebTablePage.png"));
+              log("WebTableLog.txt","Full page screenshot taken successfully");
+
+        } catch (IOException e) {
+              e.printStackTrace();
+        }
+
+
+ WebElement table =driver.findElement(By.xpath("//table"));
+
+        java.io.File tableScreenshot =table.getScreenshotAs(OutputType.FILE);
+
+        try {
+           org.apache.commons.io.FileUtils.copyFile(tableScreenshot,new java.io.File("TableElement.png"));
+
+            log("WebTableLog.txt", "Table element screenshot taken successfully");
+
+        } catch (IOException e) {
+             e.printStackTrace();
+        }
+         driver.quit();
+         log("WebTableLog.txt", "Browser closed");
+    }
+}
