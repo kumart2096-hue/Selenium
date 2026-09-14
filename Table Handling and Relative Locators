@@ -1,0 +1,73 @@
+1.Handle the table:
+
+package PracticeActions;
+
+import java.util.List;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class WebTable {
+
+    public static void main(String[] args) {
+
+              WebDriver driver = new ChromeDriver();
+
+              driver.manage().window().maximize();
+
+              driver.get("https://demoqa.com/webtables");
+
+        List<WebElement> rows = driver.findElements(
+                By.xpath("//div[@class='rt-tbody']//div[@role='row']"));
+
+       for (WebElement row : rows) {
+
+            List<WebElement> cells = row.findElements(
+                    By.xpath(".//div[@role='gridcell']"));
+
+            for (WebElement cell : cells) {
+                System.out.print(cell.getText() + " | ");
+            }
+
+            System.out.println();
+        }
+      driver.quit();
+    }
+}
+
+
+2. Submit button using relative locators:
+
+package PracticeActions;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+import static org.openqa.selenium.support.locators.RelativeLocator.with;
+
+public class RelativeLocatorDemo {
+
+    public static void main(String[] args) {
+
+        WebDriver driver = new ChromeDriver();
+
+        driver.manage().window().maximize();
+
+        driver.get("https://demoqa.com/text-box");
+
+       
+        WebElement permanentAddress = driver.findElement(
+                By.id("permanentAddress"));
+
+        WebElement submitButton = driver.findElement(
+                with(By.tagName("button")).below(permanentAddress));
+
+        submitButton.click();
+
+        driver.quit();
+    }
+}
